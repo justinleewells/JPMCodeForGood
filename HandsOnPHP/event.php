@@ -10,14 +10,15 @@ class Event {
 		$this->db->connect();
 	}
 
-	function getDetails($value) {
+	public function getDetails($value) {
 		$result = $this->db->selectWhere("*", "events", "id", "=", "'$value'");
-		return $result;
+		$ret = $result->fetch_all(MYSQLI_ASSOC);
+		return $ret;
 	}
 	
-	function subscribe($eventid, $userid) {
+	public function subscribe($eventid, $userid) {
 		$result = $this->db->selectWhere("logged_in", "user", "id", "=", "'$userid'");
-		$r = $result->fetch_assoc();                                                                       
+		$r = $result->fetch_assoc();  
 		//echo $r[0]."<br>";
 		if(strcmp($r['logged_in'],"1") == 0) {
 			/*$q = mysql_query("SELECT max_attendance,status FROM events WHERE id = '$eventid'", $con) or die(mysql_error());
@@ -46,21 +47,21 @@ class Event {
 				$attending++;
 				$this->db->update("attending", "events", "id", "=", "'$eventid'", $attending);
 				$this->db->insert("subscription", "(user_id, event_id)", "('$userid','$eventid')");
-				$result = array("msg"=>"You have been registered!");
-				echo json_encode($result);
+				$result = array("msg"=>"You have been registered!", "status" => "1");
 			} else { //something went wrong, let's pass back some error info...
-				if($registered) $result = array("msg"=>"You have already registered for this event.");
-				if(!$registered) $result = array("msg"=>"This event is full.");
-				if(strcmp($status,"Active") <> 0) $result = array("error"=>"This event is not active.");
-				echo json_encode($result);
+				if($registered) $result = array("msg"=>"You have already registered for this event.", "status" => "0");
+				if(!$registered) $result = array("msg"=>"This event is full.", "status" => "0");
+				if(strcmp($status,"Active") == 0) $result = array("msg" => "This event is not active.", "status" => "0");
 			}
 		} else {
-			$result = array("msg"=>"You are not logged in! Please log in to be able to register for events!");
+			$result = array("msg" => "You are not logged in! Please log in to be able to register for events!", "status" => "0");
 		}
-		return $result;
+
+		$ret = array($result);
+		return $ret;
 	}
 	
-	function unsubscribe($eventid, $userid) {
+	public function unsubscribe($eventid, $userid) {
 		$result = $this->db->selectWhere("logged_in", "user", "id", "=", "'$userid'");
 		$r = $result->fetch_assoc();                                                                       
 		//echo $r['logged_in']."<br>";
@@ -71,10 +72,12 @@ class Event {
 			$attending --;
 			if($attending>=0) $this->db->update("attending", "events", "id", "=", "'$eventid'", $attending);
 			$result = $this->db->delete("subscription", "user_id", "=", "'$userid' AND event_id='$eventid'");
-			$ret = array("msg"=>"You have been removed from this event's attendance.");
+			$ret = array("msg" => "You have been removed from this event's attendance.");
 		} else {
-			$ret = array("msg"=>"Sorry, something bad happened when trying to remove you from this event's attendance. Please try again.");
+			$ret = array("msg" => "Sorry, something bad happened when trying to remove you from this event's attendance. Please try again.");
 		}
+		
+		$ret = array($result);
 		return $ret;
 	}
 

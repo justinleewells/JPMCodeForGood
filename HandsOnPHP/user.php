@@ -21,7 +21,7 @@ class User {
 	
 	private function checkEmail($email) {
 		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $email . "'");
-		if ($result->num_rows>0) {
+		if ($result->num_rows > 0) {
 			return true;
 		} else {
 			return false;
@@ -37,18 +37,16 @@ class User {
 		$row = $result->fetch_assoc();
 		if(strcmp($row['password'], $data['password']) == 0) {
 			$this->db->update("logged_in", "user", "username", "=", "'" . $data['username'] . "'", 1);
-			$result = array("logged_in" => 1, "msg" => "You successfully logged in.");
+			$ret = array("logged_in" => "1", "msg" => "You successfully logged in.", "user_id" => $row['id']);
 		} else {
-			$result = array("logged_in" => 0, "msg" => "There was an error logging you in! Please check your password and try again.");
+			$ret = array("logged_in" => "0", "msg" => "There was an error logging you in! Please check your password and try again.");
 		}
-		echo($data['password']);
-		echo($row['password']);
-		return $result;
+		return $ret;
 	}
 	
 	public function logout($data) {
 		$this->db->update("logged_in", "user", "username", "=", "'" . $data['username'] . "'", 0);
-		$result = array("logged_in" => 0, "msg" => "You successfully logged out.");
+		$result = array("logged_in" => "0", "msg" => "You successfully logged out.");
 		return $result;
 	}
 	
@@ -56,10 +54,10 @@ class User {
 		if ((!$this->checkUsername($data['username'])) && (!$this->checkEmail($data['email']))) {
 			$id = $this->generateRandomString(15);
 			$this->db->insert("user", "(id, first_name, last_name, username, email, address, password, phone, logged_in)", "('" . $id . "','" . $data['first_name'] . "','" . $data['last_name'] . "','" . $data['username'] . "','" . $data['email'] . "','" . $data['address'] . "','" . $data['password'] . "','" . $data['phone'] . "',0)");
-			$result = array("logged_in" => 1, "msg" => "You logged in successfully!");
+			$result = array("logged_in" => "1", "msg" => "You logged in successfully!", "user_id" => $id);
 		}
 		else {
-			$result = array("logged_in" => 0, "msg" => "Your username or email is in use.");
+			$result = array("logged_in" => "0", "msg" => "Your username or email is in use.");
 		}
 		return $result;
 	}

@@ -23,7 +23,7 @@ class Database {
 	
 	public function selectLike($columns, $table, $where_column, $like_value) {
 		if ($this->con) {
-			$result = $this->con->query("SELECT " . $columns . " FROM " . $table . " WHERE " . $where_column . " LIKE " . $like_value);
+			$result = $this->con->query("SELECT " . $columns . " FROM " . $table . " WHERE " . $where_column . " LIKE '%" . $like_value . "%'");
 			if (!$result) {
 				die ("Invalid query " . $this->con->error);
 			}

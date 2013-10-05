@@ -16,7 +16,7 @@ class Search {
 	}
 	
 	public function keyword($value) {
-		$result = $this->db->selectLike("*", "events", "description", "'%" . $value . "%'");
+		$result = $this->db->selectLike("*", "events", "description", $value);
 		return $result;
 	}
 	
