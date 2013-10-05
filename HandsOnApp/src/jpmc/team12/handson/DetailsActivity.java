@@ -92,14 +92,6 @@ public class DetailsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	private void performSignUp() {
-		/*Intent intent = new Intent(getApplicationContext(),
-				ResultsActivity.class);
-
-		Bundle bundle = new Bundle();
-		bundle.putString("search", searchText.getText().toString());
-		intent.putExtras(bundle);
-		startActivity(intent);*/
-		
 		String username = Credentials.getUsername();
 		if( username.equals("Guest")){
 			Toast.makeText(this, "Please Login or Register First",
@@ -112,15 +104,14 @@ public class DetailsActivity extends Activity {
 
 	}
 	private void performExpressInterest() {
-		/*Intent intent = new Intent(getApplicationContext(),
-				ResultsActivity.class);
-
-		Bundle bundle = new Bundle();
-		bundle.putString("search", searchText.getText().toString());
-		intent.putExtras(bundle);
-
-		startActivity(intent);*/
-		Toast.makeText(this, "Interest Expressed",
-				Toast.LENGTH_SHORT).show();
+		String username = Credentials.getUsername();
+		if( username.equals("Guest")){
+			Toast.makeText(this, "Please Login or Register First",
+					Toast.LENGTH_LONG).show();
+			CommonMenu.displayOptions(this);
+		}else{
+			//Perform express functionality here
+			
+		}
 	}
 }
