@@ -22,8 +22,6 @@
             android:layout_toLeftOf="@+id/searchButton"
             android:ems="10"
             android:hint="Keyword, Zip, Date, ..." >
-
-            <requestFocus />
         </EditText>
 
         <ImageView
