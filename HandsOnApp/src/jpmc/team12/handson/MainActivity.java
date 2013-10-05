@@ -7,10 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 
 public class MainActivity extends Activity {
 
@@ -32,32 +29,16 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		CommonMenu.onCreateOptionsMenu(this, menu);
 		return true;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.menu_account) {
-			View menuItemView = findViewById(R.id.menu_account);
-			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+		if (CommonMenu.onOptionsItemSelected(this, item))
+			return true;
 
-			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-				@Override
-				public boolean onMenuItemClick(MenuItem item) {
-					if (item.getItemId() == R.id.menu_register) {
-						Intent goToNextActivity = new Intent(
-								getApplicationContext(), Register.class);
-						startActivity(goToNextActivity);
-					}
-					return true;
-				}
-			});
-
-			popupMenu.inflate(R.menu.logged_out);
-			popupMenu.show();
-		}
-		return true;
+		return super.onOptionsItemSelected(item);
 	}
 
 }
