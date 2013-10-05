@@ -201,7 +201,8 @@
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_width="match_parent"
-            android:layout_height="188dp" />
+            android:layout_height="188dp"
+            android:calendarViewShown="false" />
 
         <RelativeLayout
             android:id="@+id/relativeLayout2"
