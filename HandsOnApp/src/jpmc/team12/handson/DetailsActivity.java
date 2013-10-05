@@ -151,7 +151,7 @@ public class DetailsActivity extends Activity {
 		int month = Integer.parseInt(matcher.group(2), 10);
 		int day = Integer.parseInt(matcher.group(3), 10);
 		Calendar beginTime = Calendar.getInstance();
-		beginTime.set(year, month, day, 0, 0, 0);
+		beginTime.set(year, month - 1, day, 0, 0, 0);
 
 		matcher = datePattern.matcher(event.getEndDate());
 		matcher.matches();
@@ -159,7 +159,7 @@ public class DetailsActivity extends Activity {
 		month = Integer.parseInt(matcher.group(2), 10);
 		day = Integer.parseInt(matcher.group(3), 10);
 		Calendar endTime = Calendar.getInstance();
-		endTime.set(year, month, day, 23, 59, 59);
+		endTime.set(year, month - 1, day, 23, 59, 59);
 
 		CalendarHelper.addToCalendar(DetailsActivity.this, beginTime, endTime,
 				event.getName(), event.getDescription(),

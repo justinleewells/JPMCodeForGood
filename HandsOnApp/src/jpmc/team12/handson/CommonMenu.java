@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 public class CommonMenu {
@@ -16,8 +17,8 @@ public class CommonMenu {
 		menu.findItem(R.id.menu_account).setTitle(Credentials.getUsername());
 		return true;
 	}
-	
-	public static boolean displayOptions(final Activity activity){
+
+	public static boolean displayOptions(final Activity activity) {
 		View menuItemView = activity.findViewById(R.id.menu_drop);
 		PopupMenu popupMenu = new PopupMenu(activity, menuItemView);
 
@@ -28,11 +29,16 @@ public class CommonMenu {
 					Intent goToNextActivity = new Intent(activity
 							.getApplicationContext(), Register.class);
 					activity.startActivity(goToNextActivity);
-				}
-				if (item.getItemId() == R.id.menu_login) {
+				} else if (item.getItemId() == R.id.menu_login) {
 					Intent goToNextActivity = new Intent(activity
 							.getApplicationContext(), LogIn.class);
 					activity.startActivity(goToNextActivity);
+				} else if (item.getItemId() == R.id.menu_profile) {
+					Toast.makeText(activity, "TODO! :)", Toast.LENGTH_SHORT)
+							.show();
+				} else if (item.getItemId() == R.id.menu_logout) {
+					Toast.makeText(activity, "TODO! :)", Toast.LENGTH_SHORT)
+							.show();
 				}
 				return true;
 			}
