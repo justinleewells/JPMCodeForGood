@@ -4,5 +4,19 @@
     <string name="app_name">HandsOn</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="login">Login!</string>
+    <string name="register">New User? Register!</string>
+    <string name="AUTH_FAILED">Authentication failed</string>
+    <string name="name">Name</string>
+    <string name="first">First</string>
+    <string name="last">Last</string>
+    <string name="reenter">Re-enter password:</string>
+    <string name="email">E-mail</string>
+    <string name="create">Create</string>
+    <string name="user_exists">That username is in use. Please choose another, or go back to login.</string>
+    <string name="new_password_mismatch">Password and re-enter password fields do not match</string>
+    <string name="invalid_input">Please enter a valid username or password.</string>
 
 </resources>
