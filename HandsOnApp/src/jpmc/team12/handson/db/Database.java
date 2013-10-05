@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,9 +16,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class Database {
 
@@ -28,6 +32,24 @@ public class Database {
 
 	private static final Integer ZIPCODE = 0;
 	private static final Integer KEYWORD = 1;
+	private static final Integer ACTIVITIES = 2;
+	private static final Integer START_DATE = 3;
+
+	private static final Pattern ZIPCODE_PATTERN = Pattern.compile("^\\d+$");
+	private static final Pattern DATE_PATTERN = Pattern
+			.compile("^\\d+/\\d+/\\d+$");
+
+	private static int getSearchType(String search) {
+		Matcher matcher = ZIPCODE_PATTERN.matcher(search);
+		if (matcher.matches())
+			return ZIPCODE;
+
+		matcher = DATE_PATTERN.matcher(search);
+		if (matcher.matches())
+			return START_DATE;
+
+		return KEYWORD;
+	}
 
 	public static void getEvents(String search,
 			final OnDatabaseResultHandler<List<Event>> handler) {
@@ -36,9 +58,9 @@ public class Database {
 		JSONObject data = new JSONObject(jsonValues);
 
 		final List<Event> events = new ArrayList<Event>();
-		Database.sendRequest(URL, SEARCH, KEYWORD, data,
-				new OnDatabaseResultHandler<JSONObject>() {
-					public void onResult(JSONObject result) {
+		Database.sendRequest(URL, SEARCH, getSearchType(search), data,
+				new OnDatabaseResultHandler<JSONArray>() {
+					public void onResult(JSONArray result) {
 						events.add(new Event("1", "2", "3", "4"));
 						handler.onResult(events);
 					}
@@ -47,7 +69,7 @@ public class Database {
 
 	private static void sendRequest(String url, Integer domain,
 			Integer function, JSONObject data,
-			OnDatabaseResultHandler<JSONObject> handler) {
+			OnDatabaseResultHandler<JSONArray> handler) {
 		HttpPost httpPost = new HttpPost(url);
 		try {
 			// Add your data
@@ -60,34 +82,37 @@ public class Database {
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			new DatabaseRequestTask(handler).execute(httpPost);
 		} catch (Exception e) {
+			Log.e("CATS", Log.getStackTraceString(e));
 		}
 	}
 
 	private static class DatabaseRequestTask extends
-			AsyncTask<HttpPost, Void, JSONObject> {
+			AsyncTask<HttpPost, Void, JSONArray> {
 
-		private OnDatabaseResultHandler<JSONObject> handler;
+		private OnDatabaseResultHandler<JSONArray> handler;
 
-		public DatabaseRequestTask(OnDatabaseResultHandler<JSONObject> handler) {
+		public DatabaseRequestTask(OnDatabaseResultHandler<JSONArray> handler) {
 			this.handler = handler;
 		}
 
 		@Override
-		protected JSONObject doInBackground(HttpPost... httpPost) {
+		protected JSONArray doInBackground(HttpPost... httpPost) {
 			try {
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpResponse response = httpClient.execute(httpPost[0]);
 				HttpEntity httpEntity = response.getEntity();
 				String output = EntityUtils.toString(httpEntity);
-				return new JSONObject(output);
+
+				return new JSONArray(output);
 			} catch (Exception e) {
+				Log.e("CATS", Log.getStackTraceString(e));
 			}
 
 			return null;
 		}
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
+		protected void onPostExecute(JSONArray result) {
 			this.handler.onResult(result);
 		}
 
