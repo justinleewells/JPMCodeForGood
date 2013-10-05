@@ -85,6 +85,10 @@ public class ResultsActivity extends Activity {
 					.findViewById(R.id.locationLabel);
 			location.setText(item.getLocation());
 
+			if (position % 2 != 0)
+				view.setBackgroundColor(getContext().getResources().getColor(
+						R.color.row2));
+
 			return view;
 		}
 	}
