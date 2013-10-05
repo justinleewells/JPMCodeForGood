@@ -4,6 +4,6 @@
         android:id="@+id/menu_account"
         android:orderInCategory="100"
         android:showAsAction="always|withText"
-        android:title="Guest" android:icon="@drawable/ic_menu_logout"/>
+        android:title="Guest"/>
 
 </menu>
