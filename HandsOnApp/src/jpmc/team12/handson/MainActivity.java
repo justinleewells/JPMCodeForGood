@@ -35,15 +35,8 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-<<<<<<< HEAD
-		if (item.getItemId() == R.id.menu_drop) {
-			View menuItemView = findViewById(R.id.menu_drop);
-			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
-=======
 		if (CommonMenu.onOptionsItemSelected(this, item))
 			return true;
->>>>>>> branch 'master' of https://github.com/justinleewells/JPMCodeForGood.git
-
 		return super.onOptionsItemSelected(item);
 	}
 
