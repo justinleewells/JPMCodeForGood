@@ -104,8 +104,10 @@ public class DetailsActivity extends Activity {
 		if( username.equals("Guest")){
 			Toast.makeText(this, "Please Login or Register First",
 					Toast.LENGTH_LONG).show();
+			CommonMenu.displayOptions(this);
 		}else{
 			//Perform signUp functionality here
+			
 		}
 
 	}
