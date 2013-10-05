@@ -3,10 +3,6 @@
 class Database {
 	protected $con;
 	
-	function __construct() {
-		echo('Database object created.');
-	}
-	
 	public function connect() {
 		$this->con = new mysqli('ec2-184-73-92-152.compute-1.amazonaws.com', 'root', 'bitnami', 'test');
 		if ($this->con->connect_error) {

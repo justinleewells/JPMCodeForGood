@@ -1,6 +1,6 @@
 <?php
 
-require("./database.php");
+require_once("./database.php");
 
 class User {
 	protected $db;
@@ -85,7 +85,8 @@ class User {
 	public function register() {
 		if (($this->checkUsername()) && ($this->checkEmail())) {
 			$id = $this->generateRandomString(15);
-			$result = $this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, phone, logged_in)", "('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address . "','" . $this->password . "','" . $this->dob . "','" . $this->phone . "',0)");
+			$this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, phone, logged_in)", "('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address . "','" . $this->password . "','" . $this->dob . "','" . $this->phone . "',0)");
+			$result = array("logged_in" => "1");
 		}
 		else {
 			$result = array("logged_in" => "0", "error" => "Your username or email is in use.");
