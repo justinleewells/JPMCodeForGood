@@ -114,6 +114,27 @@ public class Database {
 				});
 	}
 
+	public static void registerForEvent(String event_id, String user_id,
+			Activity activity, final OnDatabaseResultHandler<Boolean> handler) {
+		Map<String, Object> jsonValues = new HashMap<String, Object>();
+		jsonValues.put("event_id", event_id);
+		jsonValues.put("user_id", user_id);
+		JSONObject data = new JSONObject(jsonValues);
+
+		Database.sendRequest(URL, EVENT, SUBSCRIBE, data, "Signing up...",
+				activity, new OnDatabaseResultHandler<JSONArray>() {
+					public void onResult(JSONArray result) {
+						Boolean success = false;
+						try {
+							success = (result.getJSONObject(0).getInt("status") == 1);
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+						handler.onResult(success);
+					}
+				});
+	}
+
 	private static void sendRequest(String url, Integer domain,
 			Integer function, JSONObject data, String message,
 			Activity activity, OnDatabaseResultHandler<JSONArray> handler) {
