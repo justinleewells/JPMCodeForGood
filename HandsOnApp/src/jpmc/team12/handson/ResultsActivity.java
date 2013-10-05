@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +37,7 @@ public class ResultsActivity extends Activity {
 		adapter = new ResultListAdapter(this,
 				android.R.layout.simple_list_item_1, results);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new ResultOnItemClickListener());
 
 		// DEBUG
 		for (int i = 0; i < 20; i++)
@@ -93,6 +97,17 @@ public class ResultsActivity extends Activity {
 						R.color.row2));
 
 			return view;
+		}
+	}
+
+	private class ResultOnItemClickListener implements OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Intent goToNextActivity = new Intent(
+					ResultsActivity.this.getApplicationContext(),
+					DetailsActivity.class);
+			ResultsActivity.this.startActivity(goToNextActivity);
 		}
 	}
 
