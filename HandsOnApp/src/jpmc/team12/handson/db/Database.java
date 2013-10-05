@@ -17,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
@@ -57,11 +58,20 @@ public class Database {
 		jsonValues.put("value", search);
 		JSONObject data = new JSONObject(jsonValues);
 
-		final List<Event> events = new ArrayList<Event>();
 		Database.sendRequest(URL, SEARCH, getSearchType(search), data,
 				new OnDatabaseResultHandler<JSONArray>() {
 					public void onResult(JSONArray result) {
-						events.add(new Event("1", "2", "3", "4"));
+						List<Event> events = new ArrayList<Event>();
+
+						for (int i = 0; i < result.length(); i++) {
+							try {
+								JSONObject json = result.getJSONObject(i);
+								events.add(new Event(json));
+							} catch (JSONException e) {
+								throw new RuntimeException(e);
+							}
+						}
+
 						handler.onResult(events);
 					}
 				});
@@ -82,7 +92,7 @@ public class Database {
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			new DatabaseRequestTask(handler).execute(httpPost);
 		} catch (Exception e) {
-			Log.e("CATS", Log.getStackTraceString(e));
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -105,10 +115,8 @@ public class Database {
 
 				return new JSONArray(output);
 			} catch (Exception e) {
-				Log.e("CATS", Log.getStackTraceString(e));
+				throw new RuntimeException(e);
 			}
-
-			return null;
 		}
 
 		@Override
