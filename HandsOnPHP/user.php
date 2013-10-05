@@ -31,7 +31,7 @@ class User {
 	}
 	
 	private function checkUsername($username) {
-		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $username "'");
+		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $username . "'");
 		if (!$result) {
 			return true;
 		} else {
@@ -40,7 +40,7 @@ class User {
 	}
 	
 	private function checkEmail($email) {
-		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $email "'");
+		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $email . "'");
 		if (!$result) {
 			return true;
 		} else {
@@ -49,7 +49,7 @@ class User {
 	}
 	
 	private function generateRandomString($length = 15) {
-        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
   }
 	
 	public function setCredentials($data) {
@@ -59,7 +59,7 @@ class User {
 		$this->first_name = $data['first_name'];
 		$this->last_name = $data['last_name'];
 		$this->phone = $data['phone'];
-		$this->address = $data['address'];;
+		$this->address = $data['address'];
 		$this->dob = $data['dob'];
 		$this->setType();
 	}
@@ -84,7 +84,7 @@ class User {
 	
 	public function register() {
 		if ($this->checkUsername($this->username) && $this->checkEmail($this->email])) {
-			$id = generateRandomstring(15);
+			$id = $this->generateRandomstring(15);
 			$result = $this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, logged_in)",
 												"('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address .
 												"','" . $this->password . "','" . $this->dob . "',0)");
