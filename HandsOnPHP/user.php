@@ -1,11 +1,17 @@
 <?php
 
-require("./db.php");
+require("./database.php");
 
 class User {
 	protected $db;
 	protected $username;
 	protected $password;
+	protected $email;
+	protected $first_name;
+	protected $last_name;
+	protected $phone;
+	protected $address;
+	protected $dob;
 	protected $column;
 	
 	function __construct($name, $pass) {
@@ -24,17 +30,67 @@ class User {
 		}
 	}
 	
+	private function checkUsername() {
+		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $this->username . "'");
+		if ($result->num_rows>0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private function checkEmail() {
+		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $this->email . "'");
+		if ($result->num_rows>0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private function generateRandomString($length) {
+		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+  }
+	
+	public function setCredentials($data) {
+		$this->username = $data['username'];
+		$this->password = $data['password'];
+		$this->email = $data['email'];
+		$this->first_name = $data['first_name'];
+		$this->last_name = $data['last_name'];
+		$this->phone = $data['phone'];
+		$this->address = $data['address'];
+		$this->dob = $data['dob'];
+		$this->setType();
+	}
+	
 	public function login() {
-		$result = $this->db->selectWhere("password", "users", $this->column, "=", "'" . $this->username . "'");
+		$result = $this->db->selectWhere("password", "user", $this->column, "=", "'" . $this->username . "'");
 		$row = $result->fetch_assoc();
 		if(strcmp($row['password'], $this->password) == 0 && !empty($this->column)) {
-			$this->db->update("logged_in", "users", $this->column, "=", $this->username, 1);
+			$this->db->update("logged_in", "user", $this->column, "=", $this->username, 1);
 			$result = array("logged_in" => "1");
-			echo json_encode($result);
 		} else {
 			$result = array("logged_in" => "0", "error" => "There was an error logging you in! Please check your password and try again.");
-			echo json_encode($result);
 		}
+		return $result;
+	}
+	
+	public function logout() {
+		$this->db->update("logged_in", "user", $this->column, "=", $this->username, 0);
+		$result = array("logged_in"=>"0");
+		return $result;
+	}
+	
+	public function register() {
+		if (($this->checkUsername()) && ($this->checkEmail())) {
+			$id = $this->generateRandomString(15);
+			$result = $this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, phone, logged_in)", "('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address . "','" . $this->password . "','" . $this->dob . "','" . $this->phone . "',0)");
+		}
+		else {
+			$result = array("logged_in" => "0", "error" => "Your username or email is in use.");
+		}
+		return $result;
 	}
 	
 }

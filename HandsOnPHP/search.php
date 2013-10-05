@@ -1,6 +1,6 @@
 <?php
 
-require("./db.php");
+require("./database.php");
 
 class Search {
 	protected $db;
