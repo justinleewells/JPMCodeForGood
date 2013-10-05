@@ -56,12 +56,6 @@
             android:layout_height="302dp"
             android:text="This will be the event description text, about a paragraph of information describing the event." />
     </ScrollView>
-    <!--
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
-        android:layout_weight="1507.95" />
-    -->
 
     <View
         android:layout_width="fill_parent"
