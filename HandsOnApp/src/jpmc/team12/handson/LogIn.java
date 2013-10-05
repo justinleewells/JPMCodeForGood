@@ -19,7 +19,7 @@ import android.widget.ImageView;
 public class LogIn extends Activity {
 	private EditText mUsernameEdit = null;
 	private EditText mPasswordEdit = null;
-	private Button mLogInButton = null;
+	private ImageView mLogInButton = null;
 	ImageView usernamee;
 	ImageView password1;
 
@@ -33,7 +33,7 @@ public class LogIn extends Activity {
 
 		mUsernameEdit = (EditText) findViewById(R.id.usernameEdit);
 		mPasswordEdit = (EditText) findViewById(R.id.passwordEdit);
-		mLogInButton = (Button) findViewById(R.id.loginButton);
+		mLogInButton = (ImageView) findViewById(R.id.loginButton);
 
 		// **Initialize the error images**//
 		// usernamee = (ImageView) findViewById(R.id.error2);
