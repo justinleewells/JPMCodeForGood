@@ -115,7 +115,7 @@ public class Database {
 	}
 
 	public static void registerForEvent(String event_id, String user_id,
-			Activity activity, final OnDatabaseResultHandler<Boolean> handler) {
+			Activity activity, final OnDatabaseResultHandler<String> handler) {
 		Map<String, Object> jsonValues = new HashMap<String, Object>();
 		jsonValues.put("event_id", event_id);
 		jsonValues.put("user_id", user_id);
@@ -124,13 +124,16 @@ public class Database {
 		Database.sendRequest(URL, EVENT, SUBSCRIBE, data, "Signing up...",
 				activity, new OnDatabaseResultHandler<JSONArray>() {
 					public void onResult(JSONArray result) {
-						Boolean success = false;
+						String error = null;
 						try {
-							success = (result.getJSONObject(0).getInt("status") == 1);
+							if (result.getJSONObject(0).getInt("status") != 1) {
+								error = result.getJSONObject(0)
+										.getString("msg");
+							}
 						} catch (Exception e) {
 							throw new RuntimeException(e);
 						}
-						handler.onResult(success);
+						handler.onResult(error);
 					}
 				});
 	}
