@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/imageView1"
+            android:layout_toLeftOf="@+id/searchButton"
             android:ems="10"
             android:hint="Keyword, Zip, Date, ..." >
 
@@ -56,7 +56,6 @@
             android:layout_centerHorizontal="true"
             android:text="Search Events"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
     </RelativeLayout>
 
 </LinearLayout>

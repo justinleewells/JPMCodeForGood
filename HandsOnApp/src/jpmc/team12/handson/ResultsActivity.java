@@ -1,17 +1,22 @@
 package jpmc.team12.handson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 public class ResultsActivity extends Activity {
+
+	private ListView listView;
+	private BaseAdapter adapter;
+	private List<String> results = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,39 +25,29 @@ public class ResultsActivity extends Activity {
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		listView = (ListView) findViewById(R.id.resultsListView);
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, results);
+		listView.setAdapter(adapter);
+
+		// DEBUG
+		for (int i = 0; i < 20; i++)
+			results.add("Test");
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		CommonMenu.onCreateOptionsMenu(this, menu);
 		return true;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.menu_account) {
-			View menuItemView = findViewById(R.id.menu_account);
-			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
-
-			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-				@Override
-				public boolean onMenuItemClick(MenuItem item) {
-					if (item.getItemId() == R.id.menu_register) {
-						Intent goToNextActivity = new Intent(
-								getApplicationContext(), Register.class);
-						startActivity(goToNextActivity);
-					}
-					return true;
-				}
-			});
-
-			popupMenu.inflate(R.menu.logged_out);
-			popupMenu.show();
+		if (CommonMenu.onOptionsItemSelected(this, item))
 			return true;
-		} else if (item.getItemId() == android.R.id.home) {
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
