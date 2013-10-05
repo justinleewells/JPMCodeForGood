@@ -16,6 +16,37 @@ public class CommonMenu {
 		menu.findItem(R.id.menu_account).setTitle(Credentials.getUsername());
 		return true;
 	}
+	
+	public static boolean displayOptions(final Activity activity){
+		View menuItemView = activity.findViewById(R.id.menu_drop);
+		PopupMenu popupMenu = new PopupMenu(activity, menuItemView);
+
+		popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				if (item.getItemId() == R.id.menu_register) {
+					Intent goToNextActivity = new Intent(activity
+							.getApplicationContext(), Register.class);
+					activity.startActivity(goToNextActivity);
+				}
+				if (item.getItemId() == R.id.menu_login) {
+					Intent goToNextActivity = new Intent(activity
+							.getApplicationContext(), LogIn.class);
+					activity.startActivity(goToNextActivity);
+				}
+				return true;
+			}
+		});
+
+		if (Credentials.getLoggedIn()) {
+			popupMenu.inflate(R.menu.logged_in);
+		} else {
+			popupMenu.inflate(R.menu.logged_out);
+		}
+
+		popupMenu.show();
+		return true;
+	}
 
 	public static boolean onOptionsItemSelected(final Activity activity,
 			MenuItem item) {
