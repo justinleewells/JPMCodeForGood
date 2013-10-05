@@ -53,6 +53,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="jpmc.team12.handson.ResultsActivity" />
         </activity>
+         <activity
+            android:name="jpmc.team12.handson.LogIn"
+            android:label="@string/app_name"
+            android:parentActivityName="jpmc.team12.handson.ResultsActivity" >
+
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jpmc.team12.handson.ResultsActivity" />
+        </activity>
     </application>
 
 </manifest>

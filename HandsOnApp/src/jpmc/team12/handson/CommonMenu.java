@@ -34,6 +34,11 @@ public class CommonMenu {
 								.getApplicationContext(), Register.class);
 						activity.startActivity(goToNextActivity);
 					}
+					if (item.getItemId() == R.id.menu_login){
+						Intent goToNextActivity = new Intent(activity
+								.getApplicationContext(), LogIn.class);
+						activity.startActivity(goToNextActivity);
+					}
 					return true;
 				}
 			});
