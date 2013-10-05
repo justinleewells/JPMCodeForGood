@@ -14,7 +14,7 @@ function dbSelectWhere($table, $columns, $where_column, $where_operator, $where_
 
 function dbSelectLike($table, $columns, $where_column, $like_value) {
 	if ($con) {
-		$result = mysql_query("SELECT " . $columns . " FROM " . $table . " WHERE " . $where_column . " LIKE '" . $like_value . "'", $con);
+		$result = mysql_query("SELECT " . $columns . " FROM " . $table . " WHERE " . $where_column . " LIKE '" . $like_value . "'");
 		if (!$result) {
 			die ("Invalid query " . mysql_error());
 		}
@@ -24,7 +24,7 @@ function dbSelectLike($table, $columns, $where_column, $like_value) {
 
 function dbUpdate($table, $columns, $where_column, $where_operator, $where_value, $values) {
 	if ($con) {
-		$result = mysql_query("UPDATE " . $columns . " FROM " . $table . " WHERE " . $where_column . " " . $where_operator . " " . $where_value . " VALUES " . $values, $con);
+		$result = mysql_query("UPDATE " . $columns . " FROM " . $table . " WHERE " . $where_column . " " . $where_operator . " " . $where_value . " VALUES " . $values);
 		if (!$result) {
 			die ("Invalid query " . mysql_error());
 		}
