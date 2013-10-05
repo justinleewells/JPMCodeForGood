@@ -5,9 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="442dp"
-        android:columnCount="2"
-        android:orientation="vertical" >
+        android:layout_height="442dp">
 
         <ImageView
             android:id="@+id/imageView1"
@@ -45,7 +43,6 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword" />
-
     </RelativeLayout>
 
 </ScrollView>
