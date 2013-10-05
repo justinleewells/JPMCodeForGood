@@ -28,11 +28,11 @@ class Event {
 			$max_attend = $r['max_attendance'];
 			$status = $r['status'];
 			$registered = false;
-			 
-			/*$q = mysql_query("SELECT user_id FROM subscription WHERE event_id = '$eventid'", $con) or die(mysql_error());
-			$attending = mysql_num_rows($q);*/
-			$result = $this->db->selectWhere("user_id", "subscription", "event_id", "=", "'$eventid'");
-			$attending = $result->num_rows;
+			
+			$re = $this->db->selectWhere("attending", "events", "id", "=", "'$eventid'");
+			$p = $re->fetch_assoc();
+			$attending = $p['attending'];
+			//echo "<br><br>".$attending."<br><br>";
 			
 			//echo $attending."<br>";
 			while($r = $result->fetch_assoc()) {
@@ -43,19 +43,21 @@ class Event {
 			
 			if((($attending + 1 <= $max_attend) && !$registered) && strcmp($status,"Active") == 0) {       //we're within the limit and we aren't already registered.
 				//$q = mysql_query("INSERT INTO subscription (user_id, event_id) VALUES('$userid', '$eventid')", $con) or die(mysql_error());
-				$this->db->insert("(user_id, event_id)", "subscription", "('$userid','$eventid')");
-				$result = array("success"=>"You have been registered!");
+				$attending++;
+				$this->db->update("attending", "events", "id", "=", "'$eventid'", $attending);
+				$this->db->insert("subscription", "(user_id, event_id)", "('$userid','$eventid')");
+				$result = array("msg"=>"You have been registered!");
 				echo json_encode($result);
 			} else { //something went wrong, let's pass back some error info...
-				if($registered) $result = array("error"=>"You have already registered for this event.");
-				if(!$registered) $result = array("error"=>"This event is full.");
+				if($registered) $result = array("msg"=>"You have already registered for this event.");
+				if(!$registered) $result = array("msg"=>"This event is full.");
 				if(strcmp($status,"Active") <> 0) $result = array("error"=>"This event is not active.");
 				echo json_encode($result);
 			}
 		} else {
-			$result = array("error"=>"You are not logged in! Please log in to be able to register for events!");
-			echo json_encode($result);
+			$result = array("msg"=>"You are not logged in! Please log in to be able to register for events!");
 		}
+		return $result;
 	}
 	
 	function unsubscribe($eventid, $userid) {
@@ -63,13 +65,17 @@ class Event {
 		$r = $result->fetch_assoc();                                                                       
 		//echo $r['logged_in']."<br>";
 		if(strcmp($r['logged_in'],"1") == 0) {
+		  $re = $this->db->selectWhere("attending", "events", "id", "=", "'$eventid'");
+			$p = $re->fetch_assoc();
+			$attending = $p['attending'];
+			$attending --;
+			if($attending>=0) $this->db->update("attending", "events", "id", "=", "'$eventid'", $attending);
 			$result = $this->db->delete("subscription", "user_id", "=", "'$userid' AND event_id='$eventid'");
-			$ret = array("success"=>"You have been removed from this event's attendance.");
-			echo json_encode($ret);
+			$ret = array("msg"=>"You have been removed from this event's attendance.");
 		} else {
-			$ret = array("error"=>"Sorry, something bad happened when trying to remove you from this event's attendance. Please try again.");
-			echo json_encode($ret);
+			$ret = array("msg"=>"Sorry, something bad happened when trying to remove you from this event's attendance. Please try again.");
 		}
+		return $ret;
 	}
 
 }

@@ -4,34 +4,14 @@ require_once("./database.php");
 
 class User {
 	protected $db;
-	protected $username;
-	protected $password;
-	protected $email;
-	protected $first_name;
-	protected $last_name;
-	protected $phone;
-	protected $address;
-	protected $dob;
-	protected $column;
 	
-	function __construct($name, $pass) {
+	function __construct() {
 		$this->db = new Database();
 		$this->db->connect();
-		$this->username = $name;
-		$this->password = $pass;
-		$this->setType();
 	}
-	
-	private function setType() {
-		if(strpos($this->username, "@") > 0) {
-			$this->column = "email";
-		} else {
-			$this->column = "username";
-		}
-	}
-	
-	private function checkUsername() {
-		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $this->username . "'");
+
+	private function checkUsername($username) {
+		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $username . "'");
 		if ($result->num_rows>0) {
 			return true;
 		} else {
@@ -39,8 +19,8 @@ class User {
 		}
 	}
 	
-	private function checkEmail() {
-		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $this->email . "'");
+	private function checkEmail($email) {
+		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $email . "'");
 		if ($result->num_rows>0) {
 			return true;
 		} else {
@@ -52,44 +32,34 @@ class User {
 		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
   }
 	
-	public function setCredentials($data) {
-		$this->username = $data['username'];
-		$this->password = $data['password'];
-		$this->email = $data['email'];
-		$this->first_name = $data['first_name'];
-		$this->last_name = $data['last_name'];
-		$this->phone = $data['phone'];
-		$this->address = $data['address'];
-		$this->dob = $data['dob'];
-		$this->setType();
-	}
-	
-	public function login() {
-		$result = $this->db->selectWhere("password", "user", $this->column, "=", "'" . $this->username . "'");
+	public function login($data) {
+		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $data['username'] . "'");
 		$row = $result->fetch_assoc();
-		if(strcmp($row['password'], $this->password) == 0 && !empty($this->column)) {
-			$this->db->update("logged_in", "user", $this->column, "=", $this->username, 1);
-			$result = array("logged_in" => "1");
+		if(strcmp($row['password'], $data['password']) == 0) {
+			$this->db->update("logged_in", "user", "username", "=", "'" . $data['username'] . "'", 1);
+			$result = array("logged_in" => 1, "msg" => "You successfully logged in.");
 		} else {
-			$result = array("logged_in" => "0", "error" => "There was an error logging you in! Please check your password and try again.");
+			$result = array("logged_in" => 0, "msg" => "There was an error logging you in! Please check your password and try again.");
 		}
+		echo($data['password']);
+		echo($row['password']);
 		return $result;
 	}
 	
-	public function logout() {
-		$this->db->update("logged_in", "user", $this->column, "=", $this->username, 0);
-		$result = array("logged_in"=>"0");
+	public function logout($data) {
+		$this->db->update("logged_in", "user", "username", "=", "'" . $data['username'] . "'", 0);
+		$result = array("logged_in" => 0, "msg" => "You successfully logged out.");
 		return $result;
 	}
 	
-	public function register() {
-		if (($this->checkUsername()) && ($this->checkEmail())) {
+	public function register($data) {
+		if ((!$this->checkUsername($data['username'])) && (!$this->checkEmail($data['email']))) {
 			$id = $this->generateRandomString(15);
-			$this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, phone, logged_in)", "('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address . "','" . $this->password . "','" . $this->dob . "','" . $this->phone . "',0)");
-			$result = array("logged_in" => "1");
+			$this->db->insert("user", "(id, first_name, last_name, username, email, address, password, phone, logged_in)", "('" . $id . "','" . $data['first_name'] . "','" . $data['last_name'] . "','" . $data['username'] . "','" . $data['email'] . "','" . $data['address'] . "','" . $data['password'] . "','" . $data['phone'] . "',0)");
+			$result = array("logged_in" => 1, "msg" => "You logged in successfully!");
 		}
 		else {
-			$result = array("logged_in" => "0", "error" => "Your username or email is in use.");
+			$result = array("logged_in" => 0, "msg" => "Your username or email is in use.");
 		}
 		return $result;
 	}
