@@ -8,12 +8,15 @@ public class SearchResultItem {
 
 	private String location;
 
+	private String date;
+
 	public SearchResultItem(String opportunityName, String organization,
-			String location) {
+			String location, String date) {
 		super();
 		this.opportunityName = opportunityName;
 		this.organization = organization;
 		this.location = location;
+		this.date = date;
 	}
 
 	public String getOpportunityName() {
@@ -26,6 +29,10 @@ public class SearchResultItem {
 
 	public String getLocation() {
 		return location;
+	}
+
+	public String getDate() {
+		return date;
 	}
 
 }

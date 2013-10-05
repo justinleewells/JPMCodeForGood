@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <TableRow
-        android:id="@+id/tableRow1"
+    <TextView
+        android:id="@+id/opportunityLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:layout_marginTop="3dp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/opportunityLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow2"
+    <TextView
+        android:id="@+id/organizationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:layout_marginTop="3dp" />
 
-        <TextView
-            android:id="@+id/organizationLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp" >
 
         <TextView
             android:id="@+id/locationLabel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </TableRow>
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" />
 
-</TableLayout>
+        <TextView
+            android:id="@+id/dateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+</LinearLayout>
