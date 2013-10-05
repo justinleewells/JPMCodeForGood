@@ -59,7 +59,11 @@ public class Event {
 	}
 
 	public String getZipPostalCode() {
-		return zip_postal_code;
+		if (zip_postal_code == "0")
+			{return "";}
+		else {
+			return zip_postal_code;
+		}
 	}
 
 	public String getFullLocation() {
