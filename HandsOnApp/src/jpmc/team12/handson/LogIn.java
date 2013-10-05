@@ -33,7 +33,7 @@ public class LogIn extends Activity {
 
 		mUsernameEdit = (EditText) findViewById(R.id.usernameEdit);
 		mPasswordEdit = (EditText) findViewById(R.id.passwordEdit);
-		mLogInButton = (ImageView) findViewById(R.id.loginButton);
+		mLogInButton = (ImageView) findViewById(R.id.login_Button);
 
 		// **Initialize the error images**//
 		// usernamee = (ImageView) findViewById(R.id.error2);
