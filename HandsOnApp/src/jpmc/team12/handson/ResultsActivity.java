@@ -38,11 +38,12 @@ public class ResultsActivity extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		String search = bundle.getString("search");
 
-		Database.getEvents(search, new OnDatabaseResultHandler<List<Event>>() {
-			public void onResult(List<Event> result) {
-				adapter.notifyDataSetChanged();
-			}
-		});
+		Database.getEvents(search, this,
+				new OnDatabaseResultHandler<List<Event>>() {
+					public void onResult(List<Event> result) {
+						adapter.notifyDataSetChanged();
+					}
+				});
 
 		listView = (ListView) findViewById(R.id.resultsListView);
 		adapter = new ResultListAdapter(this,

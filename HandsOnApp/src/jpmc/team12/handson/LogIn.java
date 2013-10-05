@@ -1,5 +1,8 @@
 package jpmc.team12.handson;
 
+import jpmc.team12.handson.db.Credentials;
+import jpmc.team12.handson.db.Database;
+import jpmc.team12.handson.db.OnDatabaseResultHandler;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -14,8 +17,6 @@ import android.widget.Toast;
 import android.widget.ImageView;
 
 public class LogIn extends Activity {
-	private static final String TAG = "NewUserActivity";
-
 	private EditText mUsernameEdit = null;
 	private EditText mPasswordEdit = null;
 	private Button mLogInButton = null;
@@ -35,11 +36,11 @@ public class LogIn extends Activity {
 		mLogInButton = (Button) findViewById(R.id.logInButton);
 
 		// **Initialize the error images**//
-		//usernamee = (ImageView) findViewById(R.id.error2);
-		//password1 = (ImageView) findViewById(R.id.error3);
+		// usernamee = (ImageView) findViewById(R.id.error2);
+		// password1 = (ImageView) findViewById(R.id.error3);
 
-		//usernamee.setVisibility(View.INVISIBLE);
-		//password1.setVisibility(View.INVISIBLE);
+		// usernamee.setVisibility(View.INVISIBLE);
+		// password1.setVisibility(View.INVISIBLE);
 
 		mLogInButton.setOnClickListener(new CreateUserClickListener(this));
 	}
@@ -69,26 +70,23 @@ public class LogIn extends Activity {
 		@Override
 		public void onClick(View v) {
 
-			usernamee.setVisibility(View.INVISIBLE);
-			password1.setVisibility(View.INVISIBLE);
-			String username = mUsernameEdit.getText().toString();
-			String password = mPasswordEdit.getText().toString();
+			// usernamee.setVisibility(View.INVISIBLE);
+			// password1.setVisibility(View.INVISIBLE);
+			final String username = mUsernameEdit.getText().toString();
+			final String password = mPasswordEdit.getText().toString();
 			String result = "";
 
 			boolean keepGoing = true;
-			/*
-			 * if(firstName.equals("")||lastName.equals("")){
-			 * name.setVisibility(View.VISIBLE); keepGoing = false; }
-			 */
+
 			if (username.equals("")) {
 				keepGoing = false;
-				result = result + "-Username is Empty";
-				usernamee.setVisibility(View.VISIBLE);
+				result = "Username is empty";
+				// usernamee.setVisibility(View.VISIBLE);
 			}
 			if (password.equals("")) {
 				keepGoing = false;
-				result = result + "-Password is Null";
-				password1.setVisibility(View.VISIBLE);
+				result = "Password is empty";
+				// password1.setVisibility(View.VISIBLE);
 			}
 
 			if (keepGoing == false) {
@@ -96,24 +94,18 @@ public class LogIn extends Activity {
 				return;
 			}
 
-			/** Database persistance code here **/
-
-			/*
-			 * User user; try { user = new User(mContext);
-			 * user.setUsername(username); user.setPassword(password);
-			 * user.setFirstName(firstName); user.setLastName(lastName);
-			 * user.setEmail(email); user.save(); } catch
-			 * (DatabaseConstraintException e) { Log.i(TAG,
-			 * String.format("User %s already exists", username));
-			 * Toast.makeText(mContext, R.string.user_exists,
-			 * Toast.LENGTH_SHORT).show();
-			 * usernamee.setVisibility(View.VISIBLE); return; }
-			 * 
-			 * Intent resultIntent = new Intent();
-			 * resultIntent.putExtra("USER_ID", user.getID());
-			 * setResult(Activity.RESULT_OK, resultIntent);
-			 */
-			finish();
+			Database.submitLogin(username, password, LogIn.this,
+					new OnDatabaseResultHandler<Boolean>() {
+						public void onResult(Boolean result) {
+							if (result) {
+								Credentials.logIn(username);
+								finish();
+							} else {
+								Toast.makeText(mContext, "Invalid credentials",
+										Toast.LENGTH_SHORT).show();
+							}
+						}
+					});
 		}
 	}
 

@@ -20,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -36,7 +38,10 @@ public class Database {
 	private static final Integer KEYWORD = 1;
 	private static final Integer ACTIVITIES = 2;
 	private static final Integer START_DATE = 3;
-	
+
+	// User
+	private static final Integer LOGIN = 0;
+
 	// Event
 	private static final Integer SUBSCRIBE = 0;
 	private static final Integer UNSUBSCRIBE = 1;
@@ -59,7 +64,7 @@ public class Database {
 
 	public static List<Event> eventList = new ArrayList<Event>();
 
-	public static void getEvents(String search,
+	public static void getEvents(String search, Activity activity,
 			final OnDatabaseResultHandler<List<Event>> handler) {
 		eventList.clear();
 
@@ -68,6 +73,7 @@ public class Database {
 		JSONObject data = new JSONObject(jsonValues);
 
 		Database.sendRequest(URL, SEARCH, getSearchType(search), data,
+				"Searching...", activity,
 				new OnDatabaseResultHandler<JSONArray>() {
 					public void onResult(JSONArray result) {
 						eventList.clear();
@@ -84,9 +90,31 @@ public class Database {
 				});
 	}
 
+	public static void submitLogin(String username, String password,
+			Activity activity, final OnDatabaseResultHandler<Boolean> handler) {
+		Map<String, Object> jsonValues = new HashMap<String, Object>();
+		jsonValues.put("username", username);
+		jsonValues.put("password", password);
+		JSONObject data = new JSONObject(jsonValues);
+
+		Database.sendRequest(URL, USER, LOGIN, data, "Logging in...", activity,
+				new OnDatabaseResultHandler<JSONArray>() {
+					public void onResult(JSONArray result) {
+						boolean success = false;
+						try {
+							success = (result.getJSONObject(0).getInt(
+									"logged_in") == 1);
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+						handler.onResult(success);
+					}
+				});
+	}
+
 	private static void sendRequest(String url, Integer domain,
-			Integer function, JSONObject data,
-			OnDatabaseResultHandler<JSONArray> handler) {
+			Integer function, JSONObject data, String message,
+			Activity activity, OnDatabaseResultHandler<JSONArray> handler) {
 		HttpPost httpPost = new HttpPost(url);
 		try {
 			// Add your data
@@ -97,7 +125,8 @@ public class Database {
 					.toString()));
 			nameValuePairs.add(new BasicNameValuePair("data", data.toString()));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			new DatabaseRequestTask(handler).execute(httpPost);
+			new DatabaseRequestTask(message, activity, handler)
+					.execute(httpPost);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -108,8 +137,30 @@ public class Database {
 
 		private OnDatabaseResultHandler<JSONArray> handler;
 
-		public DatabaseRequestTask(OnDatabaseResultHandler<JSONArray> handler) {
+		private Activity activity;
+
+		private String message;
+
+		private ProgressDialog progDialog;
+
+		public DatabaseRequestTask(String message, Activity activity,
+				OnDatabaseResultHandler<JSONArray> handler) {
+			this.activity = activity;
+			this.message = message;
 			this.handler = handler;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			progDialog = new ProgressDialog(activity);
+			progDialog.setMessage(message);
+			progDialog.setIndeterminate(false);
+			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progDialog.setCancelable(false);
+			progDialog.show();
+
 		}
 
 		@Override
@@ -128,6 +179,8 @@ public class Database {
 
 		@Override
 		protected void onPostExecute(JSONArray result) {
+			if (progDialog != null)
+				progDialog.dismiss();
 			this.handler.onResult(result);
 		}
 
