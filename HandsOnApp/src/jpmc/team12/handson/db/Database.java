@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class Database {
 
@@ -43,8 +42,8 @@ public class Database {
 	private static final Integer LOGIN = 0;
 
 	// Event
-	private static final Integer SUBSCRIBE = 0;
-	private static final Integer UNSUBSCRIBE = 1;
+	private static final Integer SUBSCRIBE = 1;
+	private static final Integer UNSUBSCRIBE = 2;
 
 	private static final Pattern ZIPCODE_PATTERN = Pattern.compile("^\\d+$");
 	private static final Pattern DATE_PATTERN = Pattern
@@ -91,7 +90,7 @@ public class Database {
 	}
 
 	public static void submitLogin(String username, String password,
-			Activity activity, final OnDatabaseResultHandler<Boolean> handler) {
+			Activity activity, final OnDatabaseResultHandler<String> handler) {
 		Map<String, Object> jsonValues = new HashMap<String, Object>();
 		jsonValues.put("username", username);
 		jsonValues.put("password", password);
@@ -100,14 +99,17 @@ public class Database {
 		Database.sendRequest(URL, USER, LOGIN, data, "Logging in...", activity,
 				new OnDatabaseResultHandler<JSONArray>() {
 					public void onResult(JSONArray result) {
-						boolean success = false;
+						String user_id = null;
 						try {
-							success = (result.getJSONObject(0).getInt(
+							boolean success = (result.getJSONObject(0).getInt(
 									"logged_in") == 1);
+							if (success)
+								user_id = result.getJSONObject(0).getString(
+										"user_id");
 						} catch (Exception e) {
 							throw new RuntimeException(e);
 						}
-						handler.onResult(success);
+						handler.onResult(user_id);
 					}
 				});
 	}

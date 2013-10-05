@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ImageView;
@@ -44,7 +43,7 @@ public class LogIn extends Activity {
 
 		mLogInButton.setOnClickListener(new CreateUserClickListener(this));
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -101,10 +100,10 @@ public class LogIn extends Activity {
 			}
 
 			Database.submitLogin(username, password, LogIn.this,
-					new OnDatabaseResultHandler<Boolean>() {
-						public void onResult(Boolean result) {
-							if (result) {
-								Credentials.logIn(username);
+					new OnDatabaseResultHandler<String>() {
+						public void onResult(String result) {
+							if (result != null) {
+								Credentials.logIn(username, result);
 								finish();
 							} else {
 								Toast.makeText(mContext, "Invalid credentials",
