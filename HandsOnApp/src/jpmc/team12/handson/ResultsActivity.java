@@ -38,7 +38,7 @@ public class ResultsActivity extends Activity {
 		// DEBUG
 		for (int i = 0; i < 20; i++)
 			results.add(new SearchResultItem("Opportunity " + i,
-					"Organization " + i, "Location " + i));
+					"Organization " + i, "Location " + i, "Date " + i));
 		adapter.notifyDataSetChanged();
 	}
 
@@ -84,6 +84,9 @@ public class ResultsActivity extends Activity {
 			TextView location = (TextView) view
 					.findViewById(R.id.locationLabel);
 			location.setText(item.getLocation());
+
+			TextView date = (TextView) view.findViewById(R.id.dateLabel);
+			date.setText(item.getDate());
 
 			if (position % 2 != 0)
 				view.setBackgroundColor(getContext().getResources().getColor(
