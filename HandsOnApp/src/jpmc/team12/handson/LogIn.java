@@ -44,6 +44,12 @@ public class LogIn extends Activity {
 
 		mLogInButton.setOnClickListener(new CreateUserClickListener(this));
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		invalidateOptionsMenu();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

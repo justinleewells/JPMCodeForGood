@@ -1,5 +1,6 @@
 package jpmc.team12.handson;
 
+import jpmc.team12.handson.db.Credentials;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -12,6 +13,7 @@ public class CommonMenu {
 
 	public static boolean onCreateOptionsMenu(Activity activity, Menu menu) {
 		activity.getMenuInflater().inflate(R.menu.main, menu);
+		menu.findItem(R.id.menu_account).setTitle(Credentials.getUsername());
 		return true;
 	}
 
@@ -43,7 +45,12 @@ public class CommonMenu {
 				}
 			});
 
-			popupMenu.inflate(R.menu.logged_out);
+			if (Credentials.getLoggedIn()) {
+				popupMenu.inflate(R.menu.logged_in);
+			} else {
+				popupMenu.inflate(R.menu.logged_out);
+			}
+
 			popupMenu.show();
 			return true;
 		}

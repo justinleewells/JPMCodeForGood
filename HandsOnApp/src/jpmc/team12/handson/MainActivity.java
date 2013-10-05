@@ -46,6 +46,12 @@ public class MainActivity extends Activity {
 		});
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		invalidateOptionsMenu();
+	}
+
 	private void performSearch() {
 		Intent intent = new Intent(getApplicationContext(),
 				ResultsActivity.class);

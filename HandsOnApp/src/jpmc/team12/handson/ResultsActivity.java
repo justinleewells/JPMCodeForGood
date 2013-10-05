@@ -11,14 +11,20 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +32,8 @@ public class ResultsActivity extends Activity {
 
 	private ListView listView;
 	private ResultListAdapter adapter;
+
+	private EditText searchText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,29 @@ public class ResultsActivity extends Activity {
 
 		Bundle bundle = getIntent().getExtras();
 		String search = bundle.getString("search");
+
+		searchText = (EditText) findViewById(R.id.searchText);
+		searchText.setText(search);
+
+		ImageView searchButton = (ImageView) findViewById(R.id.searchButton);
+		searchButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				performSearch();
+			}
+		});
+
+		searchText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+					performSearch();
+					return true;
+				}
+				return false;
+			}
+		});
 
 		Database.getEvents(search, this,
 				new OnDatabaseResultHandler<List<Event>>() {
@@ -52,6 +83,12 @@ public class ResultsActivity extends Activity {
 		listView.setOnItemClickListener(new ResultOnItemClickListener());
 		adapter.notifyDataSetChanged();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		invalidateOptionsMenu();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,6 +102,18 @@ public class ResultsActivity extends Activity {
 			return true;
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void performSearch() {
+		Intent intent = new Intent(getApplicationContext(),
+				ResultsActivity.class);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("search", searchText.getText().toString());
+		intent.putExtras(bundle);
+
+		startActivity(intent);
+		finish();
 	}
 
 	private static class ResultListAdapter extends ArrayAdapter<Event> {
