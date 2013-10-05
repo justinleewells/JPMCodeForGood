@@ -33,8 +33,10 @@ public class Event {
 			if (this.start_date.equals("0000-00-00")
 					|| this.end_date.equals("0000-00-00"))
 				this.date = "Ongoing";
-			else
+			else if (!this.start_date.equals(this.end_date))
 				this.date = this.start_date + " - " + this.end_date;
+			else
+				this.date = this.start_date;
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -43,7 +45,7 @@ public class Event {
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -57,33 +59,33 @@ public class Event {
 	}
 
 	public String getCity() {
-			return city;
+		return city;
 	}
 
 	public String getStateProvince() {
-			return state_province;		
+		return state_province;
 	}
 
 	public String getZipPostalCode() {
-		if (zip_postal_code.equals("0")){
+		if (zip_postal_code.equals("0")) {
 			return "";
-			}
-		else {
+		} else {
 			return zip_postal_code;
 		}
 	}
 
 	public String getFullLocation() {
-		if (street.equals("") | city.equals("") | state_province.equals("") | zip_postal_code.equals("0"))
+		if (street.equals("") | city.equals("") | state_province.equals("")
+				| zip_postal_code.equals("0"))
 			return "";
-		else{
+		else {
 			return street + " " + city + ", " + state_province + " "
-			+ zip_postal_code;
+					+ zip_postal_code;
 		}
 	}
 
 	public String getStartDate() {
-		if(start_date.equals("0"))
+		if (start_date.equals("0"))
 			return "";
 		else {
 			return start_date;
@@ -91,16 +93,16 @@ public class Event {
 	}
 
 	public String getEndDate() {
-		if(end_date.equals("0"))
+		if (end_date.equals("0"))
 			return "";
 		else {
 			return end_date;
 		}
-		
+
 	}
 
 	public String getDate() {
-		if(date.equals("0"))
+		if (date.equals("0"))
 			return "";
 		else {
 			return date;

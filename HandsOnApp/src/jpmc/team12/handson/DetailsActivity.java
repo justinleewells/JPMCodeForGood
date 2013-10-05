@@ -1,6 +1,8 @@
 package jpmc.team12.handson;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jpmc.team12.handson.db.Credentials;
 import jpmc.team12.handson.db.Database;
@@ -9,6 +11,8 @@ import jpmc.team12.handson.db.OnDatabaseResultHandler;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,16 +105,28 @@ public class DetailsActivity extends Activity {
 								Toast.makeText(DetailsActivity.this, error,
 										Toast.LENGTH_SHORT).show();
 							} else {
-								Calendar beginTime = Calendar.getInstance();
-								beginTime.set(2013, 10, 14, 7, 30);
-								Calendar endTime = Calendar.getInstance();
-								beginTime.set(2013, 10, 14, 7, 30);
-
-								CalendarHelper.addToCalendar(
-										DetailsActivity.this, beginTime,
-										endTime, event.getName(),
-										event.getDescription(),
-										event.getFullLocation());
+								if (!event.getStartDate().equals("0000-00-00")) {
+									new AlertDialog.Builder(
+											DetailsActivity.this)
+											.setTitle(
+													"Success! Add to calendar?")
+											.setMessage(
+													"Would you like to add this event to your phone's calendar? You will still be signed up even if you skip this step.")
+											.setIcon(
+													android.R.drawable.ic_dialog_info)
+											.setPositiveButton(
+													"Add To Calendar",
+													new DialogInterface.OnClickListener() {
+														public void onClick(
+																DialogInterface dialog,
+																int whichButton) {
+															DetailsActivity.this
+																	.addToCalendar();
+														}
+													})
+											.setNegativeButton("Skip", null)
+											.show();
+								}
 
 								Toast.makeText(DetailsActivity.this,
 										"Successfully signed up!",
@@ -124,6 +140,30 @@ public class DetailsActivity extends Activity {
 					});
 		}
 
+	}
+
+	private void addToCalendar() {
+		Pattern datePattern = Pattern.compile("/(\\d+)\\-(\\d+)\\-(\\d+)$");
+
+		Matcher matcher = datePattern.matcher(event.getStartDate());
+		matcher.matches();
+		int year = Integer.parseInt(matcher.group(1));
+		int month = Integer.parseInt(matcher.group(2));
+		int day = Integer.parseInt(matcher.group(3));
+		Calendar beginTime = Calendar.getInstance();
+		beginTime.set(year, month, day, 0, 0, 0);
+
+		matcher = datePattern.matcher(event.getEndDate());
+		matcher.matches();
+		year = Integer.parseInt(matcher.group(1));
+		month = Integer.parseInt(matcher.group(2));
+		day = Integer.parseInt(matcher.group(3));
+		Calendar endTime = Calendar.getInstance();
+		endTime.set(year, month, day, 23, 59, 59);
+
+		CalendarHelper.addToCalendar(DetailsActivity.this, beginTime, endTime,
+				event.getName(), event.getDescription(),
+				event.getFullLocation());
 	}
 
 	private void performExpressInterest() {
