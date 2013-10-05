@@ -17,10 +17,12 @@
 
         <EditText
             android:id="@+id/usernameEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/passwordEdit"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
             android:ems="10"
             android:hint="Username"
             android:inputType="text" />
@@ -35,14 +37,17 @@
 
         <EditText
             android:id="@+id/passwordEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView1"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
             android:layout_marginTop="14dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword" />
+
     </RelativeLayout>
 
 </ScrollView>
