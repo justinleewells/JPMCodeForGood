@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.menu_account) {
-			View menuItemView = findViewById(R.id.menu_account);
+		if (item.getItemId() == R.id.menu_drop) {
+			View menuItemView = findViewById(R.id.menu_drop);
 			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
 
 			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {

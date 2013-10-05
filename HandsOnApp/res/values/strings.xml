@@ -18,5 +18,6 @@
     <string name="user_exists">That username is in use. Please choose another, or go back to login.</string>
     <string name="new_password_mismatch">Password and re-enter password fields do not match</string>
     <string name="invalid_input">Please enter a valid username or password.</string>
+    <string name="menuOptions">Options</string>
 
 </resources>
