@@ -38,6 +38,12 @@ public class DetailsActivity extends Activity {
 		TextView detailDescr = (TextView) findViewById(R.id.detailDescr);
 		detailDescr.setText(Html.fromHtml(event.getDescription()));
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		invalidateOptionsMenu();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

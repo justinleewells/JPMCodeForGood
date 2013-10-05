@@ -53,6 +53,12 @@ public class Register extends Activity {
 
 		mCreateUserButton.setOnClickListener(new CreateUserClickListener(this));
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		invalidateOptionsMenu();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
