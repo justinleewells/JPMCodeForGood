@@ -54,9 +54,9 @@ public class Database {
 		if (matcher.matches())
 			return ZIPCODE;
 
-		matcher = DATE_PATTERN.matcher(search);
-		if (matcher.matches())
-			return START_DATE;
+		// matcher = DATE_PATTERN.matcher(search);
+		// if (matcher.matches())
+		// return START_DATE;
 
 		return KEYWORD;
 	}

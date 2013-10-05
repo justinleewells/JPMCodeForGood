@@ -35,7 +35,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/searchButton"
             android:ems="10"
-            android:hint="Keyword, Zip, Date, ..."
+            android:hint="Keyword or Zip"
             android:imeOptions="actionSearch"
             android:inputType="text" >
 
