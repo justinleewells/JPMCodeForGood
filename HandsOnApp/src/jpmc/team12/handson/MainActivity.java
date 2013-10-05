@@ -2,22 +2,39 @@ package jpmc.team12.handson;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 public class MainActivity extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.menu_account) {
+			View menuItemView = findViewById(R.id.menu_account);
+			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+			popupMenu.inflate(R.menu.logged_out);
+			popupMenu.show();
+		} else if (item.getItemId() == R.id.menu_register) {
+			//Intent goToNextActivity = new Intent(getApplicationContext(),
+			//		YourNewClass.class);
+			//startActivity(goToNextActivity);
+		}
+		return true;
+	}
+
 }
