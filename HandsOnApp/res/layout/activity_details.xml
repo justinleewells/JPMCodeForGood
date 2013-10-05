@@ -45,6 +45,11 @@
         android:layout_height="wrap_content"
         android:text="12345 Temp Ave. Columbus, Ohio 43201" />
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="1507.95" />
+
     <TextView
         android:id="@+id/detailDescr"
         android:layout_width="271dp"
@@ -55,11 +60,6 @@
         android:layout_width="fill_parent"
         android:layout_height="2dip"
         android:background="#FFDDDDDD" />
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
-        android:layout_weight="1507.95" />
 
     <LinearLayout
         style="?android:attr/buttonBarStyle"
