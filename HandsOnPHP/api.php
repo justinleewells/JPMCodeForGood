@@ -47,17 +47,16 @@ class API {
 	}
 	
 	private function user($function, $data) {
-		$user = new User($data['username'], $data['password']);
+		$user = new User();
 		switch($function) {
 		case 0:
-			$result = $user->login();
+			$result = $user->login($data);
 			break;
 		case 1:
-			$result = $user->logout();
+			$result = $user->logout($data);
 			break;
 		case 2:
-			$user->setCredentials($data);
-			$result = $user->register();
+			$result = $user->register($data);
 			break;
 		}
 		$ret = $result->fetch_all(MYSQLI_ASSOC);
@@ -65,6 +64,20 @@ class API {
 	}
 	
 	private function event($function, $data) {
+		$event = new Event();
+		switch($function) {
+		case 0:
+			$result = $event->getDetails($data['event_id']);
+			break;
+		case 1:
+			$result = $event->subscribe($data['event_id'], $data['user_id']);
+			break;
+		case 2:
+			$result = $event->unsubscribe($data['event_id'], $data['user_id']);
+			break;
+		}
+		$ret = $result->fetch_all(MYSQLI_ASSOC);
+		return $ret;
 	}
 }
 

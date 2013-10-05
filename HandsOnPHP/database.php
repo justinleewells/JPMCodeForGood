@@ -33,7 +33,7 @@ class Database {
 	
 	public function update($columns, $table, $where_column, $where_operator, $where_value, $values) {
 		if ($this->con) {
-			$result = $this->con->query("UPDATE " . $columns . " FROM " . $table . " WHERE " . $where_column . $where_operator . $where_value . " VALUES " . $values);
+			$result = $this->con->query("UPDATE " . $table . " SET ". $columns . "=" . $values ." WHERE ". $where_column . $where_operator . $where_value);
 			if (!$result) {
 				die ("Invalid query " . $this->con->error);
 			}
@@ -43,8 +43,7 @@ class Database {
 	
 	public function insert($table, $columns, $data) {
 		if ($this->con) {
-			echo "INSERT INTO " . $table . " " . $columns . " VALUES " . $values."<br>";
-			$result = $this->con->query("INSERT INTO " . $table . " " . $columns . " VALUES " . $values);
+			$result = $this->con->query("INSERT INTO " . $table . " " . $columns . " VALUES " . $data);
 			if (!$result) {
 				die ("Invalid query " . $this->con->error);
 			}

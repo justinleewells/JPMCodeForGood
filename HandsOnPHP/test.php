@@ -9,7 +9,9 @@ $js = json_encode($row);
 echo($js); */
 
 require("./user.php");
-$user = new User("ewhill", "password");
+$user = new User("justin", "password");
+$data = array("username" => "justin", "password" => "password", "email" => "email", "first_name" => "justin", "last_name" => "last_name", "phone" => "phone", "address" => "address");
+$user->register($data);
 // $user->login();
 
 ?>
