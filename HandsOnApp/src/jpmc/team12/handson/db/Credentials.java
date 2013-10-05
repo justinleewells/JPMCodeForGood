@@ -8,7 +8,7 @@ public class Credentials {
 
 	private static String username = USERNAME_GUEST;
 
-	private static int uid;
+	private static String uid;
 
 	public static boolean getLoggedIn() {
 		return Credentials.isLoggedIn;
@@ -18,13 +18,14 @@ public class Credentials {
 		return Credentials.username;
 	}
 
-	public static int getUid() {
+	public static String getUid() {
 		return Credentials.uid;
 	}
 
-	public static void logIn(String username) {
+	public static void logIn(String username, String user_id) {
 		Credentials.isLoggedIn = true;
 		Credentials.username = username;
+		Credentials.uid = user_id;
 	}
 
 	public static void logOut() {
