@@ -1,9 +1,6 @@
 <?php
 $con = mysql_connect('ec2-184-73-92-152.compute-1.amazonaws.com', 'root', 'bitnami') or die("FAILED");
 mysql_select_db('test');
-if ($con) {
-	echo("Worked");
-}
 
 function dbSelectWhere($table, $columns, $where_column, $where_operator, $where_value) {
 	if ($con) {
