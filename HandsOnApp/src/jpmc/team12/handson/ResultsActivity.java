@@ -3,7 +3,9 @@ package jpmc.team12.handson;
 import java.util.ArrayList;
 import java.util.List;
 
+import jpmc.team12.handson.db.Database;
 import jpmc.team12.handson.db.Event;
+import jpmc.team12.handson.db.OnDatabaseResultHandler;
 
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -35,17 +37,21 @@ public class ResultsActivity extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		Bundle bundle = getIntent().getExtras();
+		String search = bundle.getString("search");
+
+		Database.getEvents(search, new OnDatabaseResultHandler<List<Event>>() {
+			public void onResult(List<Event> result) {
+				results.addAll(result);
+				adapter.notifyDataSetChanged();
+			}
+		});
+
 		listView = (ListView) findViewById(R.id.resultsListView);
 		adapter = new ResultListAdapter(this,
 				android.R.layout.simple_list_item_1, results);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new ResultOnItemClickListener());
-
-		// DEBUG
-		for (int i = 0; i < 20; i++)
-			results.add(new Event("Opportunity " + i, "Organization " + i,
-					"Location " + i, "Date " + i));
-		adapter.notifyDataSetChanged();
 	}
 
 	@Override
