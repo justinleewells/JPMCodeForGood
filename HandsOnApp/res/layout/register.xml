@@ -145,29 +145,34 @@
                 android:layout_height="wrap_content"
                 android:text="Date of Birth:"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:calendarViewShown="false" />
-
         </LinearLayout>
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false" />
+
+        <RelativeLayout
+            android:id="@+id/datepickercontainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativeLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <Button
+            <ImageView
                 android:id="@+id/createButton"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="@string/create" />
+                android:src="@drawable/create" />
         </RelativeLayout>
-
     </LinearLayout>
 
 </ScrollView>
