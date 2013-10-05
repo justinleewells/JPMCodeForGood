@@ -2,8 +2,12 @@
 
     <item
         android:id="@+id/menu_account"
-        android:orderInCategory="100"
         android:showAsAction="always|withText"
         android:title="Guest"/>
+    <item
+        android:id="@+id/menu_drop"
+        android:icon="@drawable/down_arrow"
+        android:title="@string/menuOptions" android:showAsAction="always|withText">
+    </item>
 
 </menu>

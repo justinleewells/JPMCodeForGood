@@ -22,8 +22,8 @@ public class CommonMenu {
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(activity);
 			return true;
-		case R.id.menu_account:
-			View menuItemView = activity.findViewById(R.id.menu_account);
+		case R.id.menu_drop:
+			View menuItemView = activity.findViewById(R.id.menu_drop);
 			PopupMenu popupMenu = new PopupMenu(activity, menuItemView);
 
 			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {

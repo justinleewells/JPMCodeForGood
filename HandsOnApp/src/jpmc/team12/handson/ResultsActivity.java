@@ -6,17 +6,21 @@ import java.util.List;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ResultsActivity extends Activity {
 
 	private ListView listView;
-	private BaseAdapter adapter;
-	private List<String> results = new ArrayList<String>();
+	private ResultListAdapter adapter;
+	private List<SearchResultItem> results = new ArrayList<SearchResultItem>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +31,14 @@ public class ResultsActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		listView = (ListView) findViewById(R.id.resultsListView);
-		adapter = new ArrayAdapter<String>(this,
+		adapter = new ResultListAdapter(this,
 				android.R.layout.simple_list_item_1, results);
 		listView.setAdapter(adapter);
 
 		// DEBUG
 		for (int i = 0; i < 20; i++)
-			results.add("Test");
+			results.add(new SearchResultItem("Opportunity " + i,
+					"Organization " + i, "Location " + i));
 		adapter.notifyDataSetChanged();
 	}
 
@@ -49,6 +54,43 @@ public class ResultsActivity extends Activity {
 			return true;
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private static class ResultListAdapter extends
+			ArrayAdapter<SearchResultItem> {
+
+		public ResultListAdapter(Context context, int resource,
+				List<SearchResultItem> objects) {
+			super(context, resource, objects);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) getContext()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = inflater.inflate(R.layout.search_result_item, parent,
+					false);
+
+			SearchResultItem item = this.getItem(position);
+
+			TextView opportunity = (TextView) view
+					.findViewById(R.id.opportunityLabel);
+			opportunity.setText(item.getOpportunityName());
+
+			TextView organizaton = (TextView) view
+					.findViewById(R.id.organizationLabel);
+			organizaton.setText(item.getOrganization());
+
+			TextView location = (TextView) view
+					.findViewById(R.id.locationLabel);
+			location.setText(item.getLocation());
+
+			if (position % 2 != 0)
+				view.setBackgroundColor(getContext().getResources().getColor(
+						R.color.row2));
+
+			return view;
+		}
 	}
 
 }

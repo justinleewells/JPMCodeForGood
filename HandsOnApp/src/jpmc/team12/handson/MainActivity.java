@@ -37,7 +37,6 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (CommonMenu.onOptionsItemSelected(this, item))
 			return true;
-
 		return super.onOptionsItemSelected(item);
 	}
 
