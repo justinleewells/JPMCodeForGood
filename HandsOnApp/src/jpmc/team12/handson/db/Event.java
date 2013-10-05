@@ -63,8 +63,12 @@ public class Event {
 	}
 
 	public String getFullLocation() {
-		return street + " " + city + ", " + state_province + " "
+		if (street == "" & city == "" & state_province == "")
+			return "";
+		else{
+			return street + " " + city + ", " + state_province + " "
 				+ zip_postal_code;
+		}
 	}
 
 	public String getStartDate() {
