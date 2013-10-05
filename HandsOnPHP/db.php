@@ -55,9 +55,9 @@ class Database {
 		}
 	}
 	
-	public function drop($table, $where_column, $where_operator, $where_value) {
+	public function delete($table, $where_column, $where_operator, $where_value) {
 		if ($this->con) {
-			$result = $this->con->query("DROP FROM " . $table . " WHERE " . $where_column . " " . $where_operator . " " . $where_value);
+			$result = $this->con->query("DELETE FROM " . $table . " WHERE " . $where_column . " " . $where_operator . " " . $where_value);
 			if (!$result) {
 				die ("Invalid query " . $this->con->error);
 			}

@@ -1,5 +1,5 @@
 <?php
-  require("./db.php");
+  require("./database.php");
 
   class Event {
     protected $db;
@@ -17,25 +17,25 @@
     function subscribe($eventid, $userid) {
       $result = $this->db->selectWhere("logged_in", "user", "id", "=", "'$userid'");
       $r = $result->fetch_assoc();                                                                       
-      echo $r[0]."<br>";
-      if(strcmp($r[0],"1") == 0) {
+      //echo $r[0]."<br>";
+      if(strcmp($r['logged_in'],"1") == 0) {
         /*$q = mysql_query("SELECT max_attendance,status FROM events WHERE id = '$eventid'", $con) or die(mysql_error());
         $r = mysql_fetch_row($q);*/
-        $result = $this->db->selectWhere("(max_attendance, status)", "events", "id", "=", "'$eventid'");
+        $result = $this->db->selectWhere("max_attendance, status", "events", "id", "=", "'$eventid'");
         $r = $result->fetch_assoc();
         
-        $max_attend = $r[0];
-        $status = $r[1];
+        $max_attend = $r['max_attendance'];
+        $status = $r['status'];
         $registered = false;
          
         /*$q = mysql_query("SELECT user_id FROM subscription WHERE event_id = '$eventid'", $con) or die(mysql_error());
         $attending = mysql_num_rows($q);*/
         $result = $this->db->selectWhere("user_id", "subscription", "event_id", "=", "'$eventid'");
-        $attending = $result->num_rows();
+        $attending = $result->num_rows;
         
-        echo $attending."<br>";
+        //echo $attending."<br>";
         while($r = $result->fetch_assoc()) {
-          if(strcmp($userid,$r[0]) == 0) { // user is already registered for this event...
+          if(strcmp($userid,$r['user_id']) == 0) { // user is already registered for this event...
             $registered = true;  //set flag
           }
         }
@@ -58,7 +58,17 @@
     }
     
     function unsubscribe($eventid, $userid) {
-    
+      $result = $this->db->selectWhere("logged_in", "user", "id", "=", "'$userid'");
+      $r = $result->fetch_assoc();                                                                       
+      //echo $r['logged_in']."<br>";
+      if(strcmp($r['logged_in'],"1") == 0) {
+        $result = $this->db->delete("subscription", "user_id", "=", "'$userid' AND event_id='$eventid'");
+        $ret = array("success"=>"You have been removed from this event's attendance.");
+        echo json_encode($ret);
+      } else {
+        $ret = array("error"=>"Sorry, something bad happened when trying to remove you from this event's attendance. Please try again.");
+        echo json_encode($ret);
+      }
     }
   
   }

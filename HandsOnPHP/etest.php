@@ -14,11 +14,10 @@ $event = new Event();
 $result = $event->getDetails("a0CA0000008PQTz");
 $row = $result->fetch_all(MYSQLI_ASSOC);
 $js = json_encode($row);
-echo($js);
+echo($js)."<br>";
 
-$result = $event->register("a0CA0000008PQTz", "KeA5RyMVvk");
-$row = $result->fetch_all(MYSQLI_ASSOC);
-$js = json_encode($row);
-echo($js);
+$result = $event->subscribe("a0CA0000008PQTz", "KeA5RyMVvk");
+
+$result = $event->unsubscribe("a0CA0000008PQTz", "aasnfjjj10");
 
 ?>
