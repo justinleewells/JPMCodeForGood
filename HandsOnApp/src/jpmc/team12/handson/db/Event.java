@@ -51,41 +51,54 @@ public class Event {
 	}
 
 	public String getCity() {
-		return city;
+			return city;
 	}
 
 	public String getStateProvince() {
-		return state_province;
+			return state_province;		
 	}
 
 	public String getZipPostalCode() {
-		if (zip_postal_code == "0")
-			{return "";}
+		if (zip_postal_code.equals("0")){
+			return "";
+			}
 		else {
-			
 			return zip_postal_code;
 		}
 	}
 
 	public String getFullLocation() {
-		if (street == "" & city == "" & state_province == "")
+		if (street.equals("") | city.equals("") | state_province.equals("") | zip_postal_code.equals("0"))
 			return "";
 		else{
 			return street + " " + city + ", " + state_province + " "
-				+ zip_postal_code;
+			+ zip_postal_code;
 		}
 	}
 
 	public String getStartDate() {
-		return start_date;
+		if(start_date.equals("0"))
+			return "";
+		else {
+			return start_date;
+		}
 	}
 
 	public String getEndDate() {
-		return end_date;
+		if(end_date.equals("0"))
+			return "";
+		else {
+			return end_date;
+		}
+		
 	}
 
 	public String getDate() {
-		return date;
+		if(date.equals("0"))
+			return "";
+		else {
+			return date;
+		}
 	}
 
 	public String getDescription() {
