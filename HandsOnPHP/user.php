@@ -1,6 +1,6 @@
 <?php
 
-require("./db.php");
+require("./database.php");
 
 class User {
 	protected $db;
@@ -30,25 +30,25 @@ class User {
 		}
 	}
 	
-	private function checkUsername($username) {
-		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $username . "'");
-		if (!$result) {
+	private function checkUsername() {
+		$result = $this->db->selectWhere("*", "user", "username", "=", "'" . $this->username . "'");
+		if ($result->num_rows>0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	private function checkEmail($email) {
-		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $email . "'");
-		if (!$result) {
+	private function checkEmail() {
+		$result = $this->db->selectWhere("*", "user", "email", "=", "'" . $this->email . "'");
+		if ($result->num_rows>0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	private function generateRandomString($length = 15) {
+	private function generateRandomString($length) {
 		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
   }
 	
@@ -83,13 +83,14 @@ class User {
 	}
 	
 	public function register() {
-		if ($this->checkUsername($this->username) && $this->checkEmail($this->email])) {
-			$id = $this->generateRandomstring(15);
-			$result = $this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, logged_in)",
-												"('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address .
-												"','" . $this->password . "','" . $this->dob . "',0)");
-			return $result;
+		if (($this->checkUsername()) && ($this->checkEmail())) {
+			$id = $this->generateRandomString(15);
+			$result = $this->db->insert("user", "(id, first_name, last_name, username, email, address, password, dob, phone, logged_in)", "('" . $id . "','" . $this->first_name . "','" . $this->last_name . "','" . $this->username . "','" . $this->email . "','" . $this->address . "','" . $this->password . "','" . $this->dob . "','" . $this->phone . "',0)");
 		}
+		else {
+			$result = array("logged_in" => "0", "error" => "Your username or email is in use.");
+		}
+		return $result;
 	}
 	
 }
