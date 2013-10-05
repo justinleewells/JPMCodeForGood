@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class Event {
 
+	private String id;
 	private String name;
 	private String organization;
 	private String street;
@@ -18,6 +19,7 @@ public class Event {
 
 	public Event(JSONObject json) {
 		try {
+			this.id = json.getString("id");
 			this.name = json.getString("name");
 			this.organization = json.getString("organization_managing_name");
 			this.street = json.getString("street");
@@ -38,6 +40,10 @@ public class Event {
 		}
 	}
 
+	public String getId() {
+		return id;
+	}
+	
 	public String getName() {
 		return name;
 	}
