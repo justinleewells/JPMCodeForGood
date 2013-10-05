@@ -3,12 +3,16 @@ package jpmc.team12.handson;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class MainActivity extends Activity {
 
@@ -25,16 +29,32 @@ public class MainActivity extends Activity {
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(),
-						ResultsActivity.class);
-
-				Bundle bundle = new Bundle();
-				bundle.putString("search", searchText.getText().toString());
-				intent.putExtras(bundle);
-
-				startActivity(intent);
+				performSearch();
 			}
 		});
+
+		searchText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+					performSearch();
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	private void performSearch() {
+		Intent intent = new Intent(getApplicationContext(),
+				ResultsActivity.class);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("search", searchText.getText().toString());
+		intent.putExtras(bundle);
+
+		startActivity(intent);
 	}
 
 	@Override

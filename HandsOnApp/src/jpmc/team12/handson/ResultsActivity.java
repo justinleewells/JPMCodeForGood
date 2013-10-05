@@ -1,6 +1,5 @@
 package jpmc.team12.handson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jpmc.team12.handson.db.Database;
@@ -27,7 +26,6 @@ public class ResultsActivity extends Activity {
 
 	private ListView listView;
 	private ResultListAdapter adapter;
-	private List<Event> results = new ArrayList<Event>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +40,16 @@ public class ResultsActivity extends Activity {
 
 		Database.getEvents(search, new OnDatabaseResultHandler<List<Event>>() {
 			public void onResult(List<Event> result) {
-				results.addAll(result);
 				adapter.notifyDataSetChanged();
 			}
 		});
 
 		listView = (ListView) findViewById(R.id.resultsListView);
 		adapter = new ResultListAdapter(this,
-				android.R.layout.simple_list_item_1, results);
+				android.R.layout.simple_list_item_1, Database.eventList);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new ResultOnItemClickListener());
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -86,7 +84,7 @@ public class ResultsActivity extends Activity {
 
 			TextView opportunity = (TextView) view
 					.findViewById(R.id.opportunityLabel);
-			opportunity.setText(item.getOpportunityName());
+			opportunity.setText(item.getName());
 
 			TextView organizaton = (TextView) view
 					.findViewById(R.id.organizationLabel);
@@ -94,7 +92,7 @@ public class ResultsActivity extends Activity {
 
 			TextView location = (TextView) view
 					.findViewById(R.id.locationLabel);
-			location.setText(item.getLocation());
+			location.setText(item.getCity());
 
 			TextView date = (TextView) view.findViewById(R.id.dateLabel);
 			date.setText(item.getDate());
@@ -111,10 +109,15 @@ public class ResultsActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Intent goToNextActivity = new Intent(
+			Intent intent = new Intent(
 					ResultsActivity.this.getApplicationContext(),
 					DetailsActivity.class);
-			ResultsActivity.this.startActivity(goToNextActivity);
+
+			Bundle bundle = new Bundle();
+			bundle.putInt("event", position);
+			intent.putExtras(bundle);
+
+			ResultsActivity.this.startActivity(intent);
 		}
 	}
 

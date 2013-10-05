@@ -31,10 +31,15 @@ public class Database {
 	private static final Integer USER = 1;
 	private static final Integer EVENT = 2;
 
+	// Search
 	private static final Integer ZIPCODE = 0;
 	private static final Integer KEYWORD = 1;
 	private static final Integer ACTIVITIES = 2;
 	private static final Integer START_DATE = 3;
+	
+	// Event
+	private static final Integer SUBSCRIBE = 0;
+	private static final Integer UNSUBSCRIBE = 1;
 
 	private static final Pattern ZIPCODE_PATTERN = Pattern.compile("^\\d+$");
 	private static final Pattern DATE_PATTERN = Pattern
@@ -52,8 +57,12 @@ public class Database {
 		return KEYWORD;
 	}
 
+	public static List<Event> eventList = new ArrayList<Event>();
+
 	public static void getEvents(String search,
 			final OnDatabaseResultHandler<List<Event>> handler) {
+		eventList.clear();
+
 		Map<String, Object> jsonValues = new HashMap<String, Object>();
 		jsonValues.put("value", search);
 		JSONObject data = new JSONObject(jsonValues);
@@ -61,18 +70,16 @@ public class Database {
 		Database.sendRequest(URL, SEARCH, getSearchType(search), data,
 				new OnDatabaseResultHandler<JSONArray>() {
 					public void onResult(JSONArray result) {
-						List<Event> events = new ArrayList<Event>();
-
+						eventList.clear();
 						for (int i = 0; i < result.length(); i++) {
 							try {
 								JSONObject json = result.getJSONObject(i);
-								events.add(new Event(json));
+								eventList.add(new Event(json));
 							} catch (JSONException e) {
 								throw new RuntimeException(e);
 							}
 						}
-
-						handler.onResult(events);
+						handler.onResult(eventList);
 					}
 				});
 	}

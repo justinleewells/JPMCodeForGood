@@ -2,7 +2,6 @@ package jpmc.team12.handson;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,8 @@ public class CommonMenu {
 			MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(activity);
+			// NavUtils.navigateUpFromSameTask(activity);
+			activity.finish();
 			return true;
 		case R.id.menu_drop:
 			View menuItemView = activity.findViewById(R.id.menu_drop);
@@ -34,7 +34,7 @@ public class CommonMenu {
 								.getApplicationContext(), Register.class);
 						activity.startActivity(goToNextActivity);
 					}
-					if (item.getItemId() == R.id.menu_login){
+					if (item.getItemId() == R.id.menu_login) {
 						Intent goToNextActivity = new Intent(activity
 								.getApplicationContext(), LogIn.class);
 						activity.startActivity(goToNextActivity);
