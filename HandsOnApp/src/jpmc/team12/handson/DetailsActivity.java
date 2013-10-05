@@ -100,7 +100,7 @@ public class DetailsActivity extends Activity {
 		intent.putExtras(bundle);
 		startActivity(intent);*/
 		
-		String username = findViewById(R.id.menu_account).getTag().toString();
+		String username = Credentials.getUsername();
 		if( username.equals("Guest")){
 			Toast.makeText(this, "Please Login or Register First",
 					Toast.LENGTH_LONG).show();
