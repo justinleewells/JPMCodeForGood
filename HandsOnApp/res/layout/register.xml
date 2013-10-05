@@ -49,6 +49,12 @@
                 android:inputType="textPersonName" />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
         <LinearLayout
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
@@ -69,6 +75,12 @@
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_delete" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -110,12 +122,24 @@
                 android:src="@android:drawable/ic_delete" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
         <EditText
             android:id="@+id/emailEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="E-mail Address"
             android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
             android:id="@+id/editText2"
@@ -125,6 +149,12 @@
             android:hint="Phone Number"
             android:inputType="phone" />
 
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
         <EditText
             android:id="@+id/editText1"
             android:layout_width="match_parent"
@@ -132,6 +162,12 @@
             android:ems="10"
             android:hint="Home Address"
             android:inputType="textPostalAddress" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <LinearLayout
             android:id="@+id/dateOfBirth"
@@ -153,12 +189,11 @@
             android:layout_height="wrap_content"
             android:calendarViewShown="false" />
 
-        <RelativeLayout
-            android:id="@+id/datepickercontainer"
+        <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <RelativeLayout
             android:id="@+id/relativeLayout2"
