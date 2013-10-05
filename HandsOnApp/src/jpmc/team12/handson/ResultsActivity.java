@@ -3,6 +3,8 @@ package jpmc.team12.handson;
 import java.util.ArrayList;
 import java.util.List;
 
+import jpmc.team12.handson.db.Event;
+
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -23,7 +25,7 @@ public class ResultsActivity extends Activity {
 
 	private ListView listView;
 	private ResultListAdapter adapter;
-	private List<SearchResultItem> results = new ArrayList<SearchResultItem>();
+	private List<Event> results = new ArrayList<Event>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,8 @@ public class ResultsActivity extends Activity {
 
 		// DEBUG
 		for (int i = 0; i < 20; i++)
-			results.add(new SearchResultItem("Opportunity " + i,
-					"Organization " + i, "Location " + i, "Date " + i));
+			results.add(new Event("Opportunity " + i, "Organization " + i,
+					"Location " + i, "Date " + i));
 		adapter.notifyDataSetChanged();
 	}
 
@@ -60,11 +62,10 @@ public class ResultsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private static class ResultListAdapter extends
-			ArrayAdapter<SearchResultItem> {
+	private static class ResultListAdapter extends ArrayAdapter<Event> {
 
 		public ResultListAdapter(Context context, int resource,
-				List<SearchResultItem> objects) {
+				List<Event> objects) {
 			super(context, resource, objects);
 		}
 
@@ -75,7 +76,7 @@ public class ResultsActivity extends Activity {
 			View view = inflater.inflate(R.layout.search_result_item, parent,
 					false);
 
-			SearchResultItem item = this.getItem(position);
+			Event item = this.getItem(position);
 
 			TextView opportunity = (TextView) view
 					.findViewById(R.id.opportunityLabel);
