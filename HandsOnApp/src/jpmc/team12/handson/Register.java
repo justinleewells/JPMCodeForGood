@@ -22,7 +22,7 @@ public class Register extends Activity {
 	private EditText mPasswordEdit = null;
 	private EditText mReenterPasswordEdit = null;
 	private EditText mEmailEdit = null;
-	private Button mCreateUserButton = null;
+	private ImageView mCreateUserButton = null;
 	ImageView usernamee;
 	ImageView password1;
 	ImageView password2;
@@ -41,7 +41,7 @@ public class Register extends Activity {
 		mPasswordEdit = (EditText) findViewById(R.id.passwordEdit);
 		mReenterPasswordEdit = (EditText) findViewById(R.id.reenterPasswordEdit);
 		mEmailEdit = (EditText) findViewById(R.id.emailEdit);
-		mCreateUserButton = (Button) findViewById(R.id.createButton);
+		mCreateUserButton = (ImageView) findViewById(R.id.createButton);
 
 		// **Initialize the error images**//
 		usernamee = (ImageView) findViewById(R.id.error2);
