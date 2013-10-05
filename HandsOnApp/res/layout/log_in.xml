@@ -15,35 +15,36 @@
             android:maxHeight="100dp"
             android:src="@drawable/hoco_logo" />
 
+        <ImageView
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="19dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/login_button" />
+
         <EditText
             android:id="@+id/usernameEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/passwordEdit"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/imageView1"
             android:layout_marginRight="30dip"
+            android:layout_marginLeft="30dip"
             android:ems="10"
             android:hint="Username"
             android:inputType="text" />
-
-        <Button
-            android:id="@+id/logInButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/login" />
 
         <EditText
             android:id="@+id/passwordEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dip"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="30dip"
-            android:layout_marginTop="14dp"
+            android:layout_marginLeft="30dip"
+            android:layout_below="@+id/usernameEdit"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword" />
