@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
 public class MainActivity extends Activity {
 
@@ -27,12 +28,21 @@ public class MainActivity extends Activity {
 		if (item.getItemId() == R.id.menu_account) {
 			View menuItemView = findViewById(R.id.menu_account);
 			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+
+			popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					if (item.getItemId() == R.id.menu_register) {
+						Intent goToNextActivity = new Intent(
+								getApplicationContext(), Register.class);
+						startActivity(goToNextActivity);
+					}
+					return true;
+				}
+			});
+
 			popupMenu.inflate(R.menu.logged_out);
 			popupMenu.show();
-		} else if (item.getItemId() == R.id.menu_register) {
-			//Intent goToNextActivity = new Intent(getApplicationContext(),
-			//		YourNewClass.class);
-			//startActivity(goToNextActivity);
 		}
 		return true;
 	}
