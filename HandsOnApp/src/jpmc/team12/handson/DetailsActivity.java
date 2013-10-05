@@ -134,7 +134,7 @@ public class DetailsActivity extends Activity {
 
 								signUp.setText("Signed Up!");
 								signUp.setTextColor(DetailsActivity.this
-										.getResources().getColor(R.color.row2));
+										.getResources().getColor(R.color.green));
 							}
 						}
 					});
@@ -143,21 +143,21 @@ public class DetailsActivity extends Activity {
 	}
 
 	private void addToCalendar() {
-		Pattern datePattern = Pattern.compile("/(\\d+)\\-(\\d+)\\-(\\d+)$");
+		Pattern datePattern = Pattern.compile("^(\\d+)\\-(\\d+)\\-(\\d+)$");
 
 		Matcher matcher = datePattern.matcher(event.getStartDate());
 		matcher.matches();
-		int year = Integer.parseInt(matcher.group(1));
-		int month = Integer.parseInt(matcher.group(2));
-		int day = Integer.parseInt(matcher.group(3));
+		int year = Integer.parseInt(matcher.group(1), 10);
+		int month = Integer.parseInt(matcher.group(2), 10);
+		int day = Integer.parseInt(matcher.group(3), 10);
 		Calendar beginTime = Calendar.getInstance();
 		beginTime.set(year, month, day, 0, 0, 0);
 
 		matcher = datePattern.matcher(event.getEndDate());
 		matcher.matches();
-		year = Integer.parseInt(matcher.group(1));
-		month = Integer.parseInt(matcher.group(2));
-		day = Integer.parseInt(matcher.group(3));
+		year = Integer.parseInt(matcher.group(1), 10);
+		month = Integer.parseInt(matcher.group(2), 10);
+		day = Integer.parseInt(matcher.group(3), 10);
 		Calendar endTime = Calendar.getInstance();
 		endTime.set(year, month, day, 23, 59, 59);
 

@@ -17,8 +17,8 @@ public class CalendarHelper {
 
 	public static void addToCalendar(Context context, Calendar beginTime,
 			Calendar endTime, String title, String description, String place) {
-		long startMillis = 0;
-		long endMillis = 0;
+		long startMillis = beginTime.getTimeInMillis();
+		long endMillis = endTime.getTimeInMillis();
 
 		Intent intent = new Intent(Intent.ACTION_INSERT)
 				.setType("vnd.android.cursor.item/event")
